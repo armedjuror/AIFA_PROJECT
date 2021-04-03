@@ -24,7 +24,7 @@ bot bot_list[N];
 
 struct task{
     Pair pick, delv;
-    int to; // assigned to // 0-> not assigned, j->assigned to jth bot, -1 -> not Possible;
+    int to; // assigned to // j->assigned to jth bot, -1 -> not Possible, -2-> not assigned,;
 };
 
 task task_list[T];
@@ -346,7 +346,7 @@ int main()
         int dy = in_task[i][1][1];
         task_list[i].pick = make_pair(px,py);
         task_list[i].delv = make_pair(dx,dy);
-        task_list[i].to = 0;  //not yet assigned;
+        task_list[i].to = -2;  //not yet assigned;
     }
     
     
@@ -385,7 +385,7 @@ int main()
     for(int i = 0; i < T; ++i)
     {
         
-        if(task_list[i].to != 0) continue; //alredy done or not Possible;
+        if(task_list[i].to != -2) continue; //alredy done or not Possible;
         pickup = task_list[i].pick;
         drop = task_list[i].delv;
         min_cost = INT_MAX;
@@ -449,6 +449,8 @@ int main()
         
     }
     
+    cout << endl << endl << "SUMMARY : "<< endl << endl;
+
     // move all bots to their respevtive end points;
     for(int i = 0; i < N; ++i)
     {
@@ -465,6 +467,7 @@ int main()
             Path.pop();
             printf("->(%d,%d) ",p.first,p.second);
         }
+        cout << endl;
         
     }
     
