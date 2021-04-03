@@ -43,6 +43,7 @@ bool is_valid(int i,int j)
     else return false;
 }
 
+//Will return true if i,j is not blocked for bot_j
 bool unblocked(int i, int j,int bot_j)
 {
     if(grid[i][j].first == 0) return false;
@@ -305,7 +306,7 @@ int main()
     int min_idx, min_cost,cost,x,y,a,b;
     vector<Pair> tmp_path;
 
-    
+    //User Input
     int in_grid[R][C]
         = { { 2, 0, 2, 1, 1, 1, 0, 1, 1, 1,1 },
             { 1, 2, 1, 0, 1, 2, 1, 2, 1, 1,0 },
@@ -317,17 +318,6 @@ int main()
             { 1, 0, 1, 1, 1, 1, 0, 1, 1, 1,1 },
             { 1, 1, 1, 0, 0, 0, 1, 0, 0, 1,1 } };
     
-    for(int i = 0; i < R; ++i)
-    {
-        for(int j = 0; j < C; ++j) 
-        {
-            grid[i][j].first = in_grid[i][j];
-            grid[i][j].second = -1;
-        }    
-    }
-    //testing;
-    //if(unblocked(8,1,1)) cout<<"yes\n";
-    
     
     
     int in_task[T][2][2] //picup,delv;
@@ -338,6 +328,26 @@ int main()
           {{5,5},{3,3}},
           {{0,2},{1,5}}}; 
     
+    
+    
+    int in_bots[N][2][2] //start,end;
+    ={{{8,0},{1,2}},
+      {{7,0},{2,4}},
+      {{1,0},{3,7}},
+      {{0,5},{1,7}},
+      {{3,0},{3,3}}};
+
+    //Initiating values based on input
+
+    for(int i = 0; i < R; ++i)
+    {
+        for(int j = 0; j < C; ++j) 
+        {
+            grid[i][j].first = in_grid[i][j];
+            grid[i][j].second = -1;
+        }    
+    }
+
     for(int i = 0; i < T; ++i)
     {
         int px = in_task[i][0][0];
@@ -348,16 +358,8 @@ int main()
         task_list[i].delv = make_pair(dx,dy);
         task_list[i].to = -2;  //not yet assigned;
     }
-    
-    
-    
-    int in_bots[N][2][2] //start,end;
-    ={{{8,0},{1,2}},
-      {{7,0},{2,4}},
-      {{1,0},{3,7}},
-      {{0,5},{1,7}},
-      {{3,0},{3,3}}};
-    
+
+
     for(int i = 0; i < N; ++i)
     {
         int ix = in_bots[i][0][0];
@@ -375,17 +377,16 @@ int main()
         
     }
     
-    
-    
-    
-    
-    
+        
     int t =  0;  //time steps elapsed;
+
+
+    // Doing Tasks
 
     for(int i = 0; i < T; ++i)
     {
         
-        if(task_list[i].to != -2) continue; //alredy done or not Possible;
+        if(task_list[i].to != -2) continue; //already done or not Possible;
         pickup = task_list[i].pick;
         drop = task_list[i].delv;
         min_cost = INT_MAX;
@@ -417,6 +418,8 @@ int main()
             }
             
         }
+
+
         if(min_idx == -1) printf("task:%d not Possible\n",i); // no Possible path;
         else
         {
@@ -449,9 +452,10 @@ int main()
         
     }
     
-    cout << endl << endl << "SUMMARY : "<< endl << endl;
+    cout << endl << endl;
 
-    // move all bots to their respevtive end points;
+    
+    // move all bots to their respective end points;
     for(int i = 0; i < N; ++i)
     {
         src = bot_list[i].cur;
