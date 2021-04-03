@@ -75,6 +75,9 @@ Assume that the a robot can move at most one cell (either vertically or horizont
 20. Print logs
 21. Goto step 14
 
-
-
+## USER GUIDE
+- Update ```in_grid``` variable with the input GRID array.
+- Update ```in_task``` variable with the input task list.
+- Update ```in_bot``` varible with input bot list.
+- Compile code and run it. :)
 
